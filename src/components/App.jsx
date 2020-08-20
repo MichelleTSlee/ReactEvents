@@ -1,40 +1,48 @@
-import React from "react";
-import Animal from "./Animal";
-import cars from "../practice";
-
-const [honda, tesla] = cars;
-
-const {
-  coloursByPopularity: [hondaTopColour, hondaSilver],
-  speedStats: { hondaTopSpeed, hondaZeroToSixty },
-} = honda;
-
-const {
-  coloursByPopularity: [teslaTopColour, teslaWhite],
-  speedStats: { teslaTopSpeed, teslaZeroToSixty },
-} = tesla;
+import React, { useState } from "react";
 
 function App() {
-  return (
-    <div>
-      <Animal />
+  const [isMouseOver, setMouseOver] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [headingText, setHeading] = useState("");
 
-      <table>
-        <tr>
-          <th>Brand</th>
-          <th>Top Speed</th>
-        </tr>
-        <tr>
-          <td>{tesla.model}</td>
-          <td>{teslaTopSpeed}</td>
-          <td>{teslaTopColour}</td>
-        </tr>
-        <tr>
-          <td>{honda.model}</td>
-          <td>{hondaTopSpeed}</td>
-          <td>{hondaTopColour}</td>
-        </tr>
-      </table>
+  function updateFirstName(event) {
+    setFirstName(event.target.value);
+  }
+
+  function handleClick(event) {
+    setHeading(firstName);
+    event.preventDefault(); //Stops form refreshing right away
+  }
+
+  function handleMouseOver() {
+    setMouseOver(true);
+  }
+
+  function handleMouseOut() {
+    setMouseOver(false);
+  }
+
+  return (
+    <div className="container">
+      <h1>Hello {headingText}</h1>
+      <form onSubmit={handleClick}>
+        <input
+          onChange={updateFirstName}
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+        ></input>
+
+        <button
+          type="submit"
+          style={{ backgroundColor: isMouseOver ? "black" : "white" }}
+          onClick={handleClick}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 }
